@@ -62,7 +62,7 @@ def main():
     for c in range(10):
         z_base = z_means[c].unsqueeze(0).repeat(repeats_per_class, 1)
         std_c = std_means[c].unsqueeze(0).repeat(repeats_per_class, 1)
-        noise = 1 * std_c * torch.randn_like(z_base)
+        noise = sigma * std_c * torch.randn_like(z_base)
         z_synth = z_base + noise
 
         for i in range(0, repeats_per_class, batch_size):
