@@ -1,0 +1,28 @@
+# Игнорировать файлы моделей и тензоров
+*.pt
+
+# Игнорировать папки с данными
+data/
+
+__pycache__/
+*.pyc
+
+*.py[cod]
+*.ipynb_checkpoints/
+*.DS_Store
+
+*.npy
+*.png
+*.jpg
+*.jpeg
+*.txt
+
+logs/
+checkpoints/
+runs/
+.env/
+venv/
+.venv/
+
+cifar10_model.h5
+!*.py
