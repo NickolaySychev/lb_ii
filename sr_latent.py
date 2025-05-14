@@ -15,6 +15,15 @@ def load_cifar10(batch_size=32):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     return train_loader, test_loader
 
+def load_cifar10_val():
+    transform = transforms.Compose([
+        transforms.ToTensor()
+    ])
+    test_dataset = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+    x_val = torch.stack([x for x, _ in test_dataset])
+    y_val = torch.tensor([y for _, y in test_dataset])
+    return x_val, y_val
+
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = VAE(latent_dim=256).to(device)
@@ -45,7 +54,7 @@ def main():
 
     repeats_per_class = 5000
     batch_size = 128
-    sigma = 1.0  
+    sigma = 0.3
 
     all_imgs = []
     all_labels = []
@@ -53,7 +62,7 @@ def main():
     for c in range(10):
         z_base = z_means[c].unsqueeze(0).repeat(repeats_per_class, 1)
         std_c = std_means[c].unsqueeze(0).repeat(repeats_per_class, 1)
-wiazd:         noise = sigma * std_c * torch.randn_like(z_base)
+        noise = 1 * std_c * torch.randn_like(z_base)
         z_synth = z_base + noise
 
         for i in range(0, repeats_per_class, batch_size):
@@ -78,7 +87,7 @@ wiazd:         noise = sigma * std_c * torch.randn_like(z_base)
 
     torch.save(synthetic_images, 'synthetic_images.pt')
     torch.save(synthetic_labels, 'synthetic_labels.pt')
-    print(f"Сгенерирован синтетический датасет: {synthetic_images.shape[0]} образцов")
+    print(f"Synthetic dataset generated: {synthetic_images.shape[0]} samples")
 
 if __name__ == '__main__':
     main()
