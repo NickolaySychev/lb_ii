@@ -52,7 +52,7 @@ def load_synthetic(path_images='synthetic_images.pt', path_labels='synthetic_lab
     images = torch.load(path_images)
     labels = torch.load(path_labels)
     images = images.numpy().astype('float32')
-    images = np.transpose(images, (0, 2, 3, 1)) 
+    images = np.transpose(images, (0, 2, 3, 1))
     labels = labels.numpy().astype('int')
     return images, labels
 

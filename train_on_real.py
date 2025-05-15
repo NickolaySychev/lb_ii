@@ -4,6 +4,7 @@ from tensorflow.keras.utils import to_categorical
 import matplotlib.pyplot as plt
 from model import build_model, load_cifar10
 
+
 def main():
     x_train, y_train, x_val, y_val = load_cifar10()
 
@@ -23,6 +24,7 @@ def main():
     np.save('history_real.npy', history.history)
 
     print("Обучение на реальных данных завершено")
+
 
 if __name__ == '__main__':
     main()

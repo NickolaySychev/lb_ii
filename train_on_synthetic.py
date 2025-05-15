@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import torch
 from model import build_model, load_cifar10, load_synthetic
 
+
 def main():
     x_synthetic, y_synthetic_raw = load_synthetic()
     y_synthetic = to_categorical(y_synthetic_raw, 10)
@@ -26,6 +27,7 @@ def main():
     np.save('history_synthetic.npy', history.history)
 
     print("Обучение на синтетических данных завершено")
+
 
 if __name__ == '__main__':
     main()

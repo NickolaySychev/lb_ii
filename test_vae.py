@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-from vae import VAE 
+from vae import VAE
 import numpy as np
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
