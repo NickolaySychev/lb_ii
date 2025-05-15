@@ -1,7 +1,4 @@
-# Игнорировать файлы моделей и тензоров
-*.pt
 
-# Игнорировать папки с данными
 data/
 
 __pycache__/
@@ -10,6 +7,9 @@ __pycache__/
 *.py[cod]
 *.ipynb_checkpoints/
 *.DS_Store
+
+*.h5
+*.pt
 
 *.npy
 *.png
@@ -24,5 +24,4 @@ runs/
 venv/
 .venv/
 
-cifar10_model.h5
 !*.py
