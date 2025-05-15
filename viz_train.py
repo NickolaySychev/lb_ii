@@ -1,68 +1,34 @@
 import numpy as np
-import tensorflow as tf
 import matplotlib.pyplot as plt
 
-# Функция для загрузки модели и истории
-def load_model_and_history(model_path, history_path):
-    # Загружаем модель из файла .h5
-    model = tf.keras.models.load_model(model_path)
-    
-    # Загружаем историю обучения
-    history = np.load(history_path, allow_pickle=True).item()
-    
-    return model, history
+def plot_comparison():
+    history_synthetic = np.load('history_synthetic.npy', allow_pickle=True).item()
+    history_real = np.load('history_real.npy', allow_pickle=True).item()
 
-# Функция для построения графиков
-def plot_training_history(history_real, history_synthetic):
-    # Графики точности
-    plt.figure(figsize=(12, 5))
-    plt.subplot(1, 2, 1)
-    plt.plot(history_real['val_accuracy'], label='Реальные данные (Val Acc)')
-    plt.plot(history_synthetic['val_accuracy'], label='Синтетические данные (Val Acc)')
-    plt.xlabel('Эпоха')
-    plt.ylabel('Точность')
-    plt.title('Валидационная точность')
-    plt.legend()
-    plt.grid(True)
+    epochs_synthetic = range(1, len(history_synthetic['accuracy']) + 1)
+    epochs_real = range(1, len(history_real['accuracy']) + 1)
 
-    # Графики потерь
-    plt.subplot(1, 2, 2)
-    plt.plot(history_real['val_loss'], label='Реальные данные (Val Loss)')
-    plt.plot(history_synthetic['val_loss'], label='Синтетические данные (Val Loss)')
-    plt.xlabel('Эпоха')
-    plt.ylabel('Потери')
-    plt.title('Валидационные потери')
-    plt.legend()
-    plt.grid(True)
-    
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+
+    ax1.plot(epochs_synthetic, history_synthetic['accuracy'], 'b-', label='Точность на синтетических данных')
+    ax1.plot(epochs_real, history_real['accuracy'], 'r-', label='Точность на реальных данных')
+    ax1.set_title('Сравнение точности моделей')
+    ax1.set_xlabel('Эпоха')
+    ax1.set_ylabel('Точность')
+    ax1.legend()
+    ax1.grid(True)
+
+    ax2.plot(epochs_synthetic, history_synthetic['loss'], 'b-', label='Потери на синтетических данных')
+    ax2.plot(epochs_real, history_real['loss'], 'r-', label='Потери на реальных данных')
+    ax2.set_title('Сравнение потерь моделей')
+    ax2.set_xlabel('Эпоха')
+    ax2.set_ylabel('Потери')
+    ax2.legend()
+    ax2.grid(True)
+
     plt.tight_layout()
+    plt.savefig('comparison_plot.png', bbox_inches='tight', dpi=300)
     plt.show()
-
-    # График разницы в точности
-    acc_diff = np.array(history_real['val_accuracy']) - np.array(history_synthetic['val_accuracy'])
-    plt.figure(figsize=(6, 4))
-    plt.plot(acc_diff, label='Разница (Реальные - Синтетические)')
-    plt.xlabel('Эпоха')
-    plt.ylabel('Разница в точности')
-    plt.title('Разница в валидационной точности')
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-
-# Главная функция
-def main():
-    # Путь к файлам моделей и истории
-    model_real_path = 'classifier_on_real.h5'
-    model_synthetic_path = 'classifier_on_synthetic.h5'
-    history_real_path = 'history_real.npy'
-    history_synthetic_path = 'history_synthetic.npy'
-
-    # Загружаем модели и историю
-    model_real, history_real = load_model_and_history(model_real_path, history_real_path)
-    model_synthetic, history_synthetic = load_model_and_history(model_synthetic_path, history_synthetic_path)
-
-    # Строим графики
-    plot_training_history(history_real, history_synthetic)
 
 if __name__ == '__main__':
-    main()
+    plot_comparison()
