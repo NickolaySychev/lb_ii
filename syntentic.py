@@ -1,7 +1,6 @@
 import torch
 from vae import VAE, load_cifar10
 
-
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

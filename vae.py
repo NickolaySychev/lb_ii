@@ -14,13 +14,13 @@ class VAE(nn.Module):
         self.latent_dim = latent_dim
 
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 64, 4, 2, 1),  # 16x16
+            nn.Conv2d(3, 64, 4, 2, 1),  
             nn.BatchNorm2d(64), nn.ReLU(inplace=True),
-            nn.Conv2d(64, 128, 4, 2, 1),  # 8x8
+            nn.Conv2d(64, 128, 4, 2, 1),
             nn.BatchNorm2d(128), nn.ReLU(inplace=True),
-            nn.Conv2d(128, 256, 4, 2, 1),  # 4x4
+            nn.Conv2d(128, 256, 4, 2, 1),  
             nn.BatchNorm2d(256), nn.ReLU(inplace=True),
-            nn.Conv2d(256, 512, 4, 2, 1),  # 2x2
+            nn.Conv2d(256, 512, 4, 2, 1), 
             nn.BatchNorm2d(512), nn.ReLU(inplace=True)
         )
 
@@ -29,13 +29,13 @@ class VAE(nn.Module):
 
         self.fc_dec = nn.Linear(latent_dim, 512 * 2 * 2)
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(512, 256, 4, 2, 1),  # 4x4
+            nn.ConvTranspose2d(512, 256, 4, 2, 1),
             nn.BatchNorm2d(256), nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(256, 128, 4, 2, 1),  # 8x8
+            nn.ConvTranspose2d(256, 128, 4, 2, 1),
             nn.BatchNorm2d(128), nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(128, 64, 4, 2, 1),  # 16x16
+            nn.ConvTranspose2d(128, 64, 4, 2, 1), 
             nn.BatchNorm2d(64), nn.ReLU(inplace=True),
-            nn.ConvTranspose2d(64, 3, 4, 2, 1),  # 32x32
+            nn.ConvTranspose2d(64, 3, 4, 2, 1),  
             nn.Sigmoid()
         )
 
